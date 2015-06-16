@@ -5,14 +5,26 @@ angular.module('potatoPhotosApp')
         $scope.photos = [];
         $scope.firstFetch = true;
         $scope.searchText = '';
-        var searchTimeout = null;
+        $scope.tags = [];
+        var timeouts = {};
+
+        function convertTagsToArray(tags) {
+            var tagArray = [];
+            for (var i = 0; i < tags.length; i++) {
+                var tag = tags[i];
+                tagArray.push(tag.text);
+            }
+            return tagArray;
+        }
 
         function fetch(options) {
             options = options || {};
             options.params = {
                 format: 'json',
                 per_page: 20,
-                text: $scope.searchText
+                text: $scope.searchText,
+                tag_mode: 'all',
+                tags: convertTagsToArray($scope.tags)
             };
 
             options.key = 'search';
@@ -38,18 +50,25 @@ angular.module('potatoPhotosApp')
             })
         };
 
-        $scope.$watch('searchText', function (before, after) {
-            if (before !== after) {
-                if (searchTimeout) {
-                    $timeout.cancel(searchTimeout);
+        function newSearch(newVal, oldVal, timeoutKey) {
+            if (newVal !== oldVal) {
+
+                if (timeouts.hasOwnProperty(timeoutKey)) {
+                    $timeout.cancel(timeouts[timeoutKey]);
                 }
                 // Debounce the search
-                searchTimeout = $timeout(function () {
+                timeouts[timeoutKey] = $timeout(function () {
                     fetch({newSearch: true});
-                    $timeout.cancel(searchTimeout);
                 }, 250)
             }
+        }
 
-        })
+        $scope.$watch('searchText', function (newVal, oldVal) {
+            newSearch(newVal, oldVal, 'searchText')
+        });
+        $scope.$watchCollection('tags', function (newVal, oldVal) {
+
+            newSearch(newVal, oldVal, 'tags')
+        });
     });
 

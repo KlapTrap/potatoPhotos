@@ -79,7 +79,7 @@ angular.module('potatoPhotosApp')
                 options.params.page = currentPage;
             }
             var params = options.params;
-            // Check the cache or delete what we have
+            // Check the cache
             if (options.fromCache && options.key) {
                 console.log('Checking cache');
                 if (cachedListPhotos.hasOwnProperty(options.key)) {
@@ -181,6 +181,9 @@ angular.module('potatoPhotosApp')
         this.getPhotoOwnerUrl = function (photo) {
             if (!photo) {
                 return '';
+            }
+            if (photo.owner && photo.owner.nsid) {
+                return (basePhotoPageUrl + photo.owner.nsid);
             }
             return (basePhotoPageUrl + photo.owner);
         };

@@ -1,9 +1,10 @@
 <h1 class="main-title main-header">Search</h1>
 <div class="search-wrapper">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1"
+        <input type="text" class="form-control" placeholder="Free text search..." aria-describedby="basic-addon1"
                ng-model="searchText">
         <span class="input-group-addon"><i class="fa fa-search"></i></span>
     </div>
+    <tags-input ng-model="tags"></tags-input>
 </div>
-<po-photo-list fetch="fetchNextPage" photos="photos"></po-photo-list>
+<po-photo-list class="search-results" fetch="fetchNextPage" photos="photos"></po-photo-list>

@@ -13,7 +13,7 @@ angular.module('potatoPhotosApp')
         } else {
             $scope.error = true;
         }
-
+        $scope.returnState = $stateParams.returnState;
         $scope.getPhotoPageUrl = paFlickrPhotoService.getPhotoPageUrl;
         $scope.getPhotoOwnerUrl = paFlickrPhotoService.getPhotoOwnerUrl;
         $scope.getSourceUrl = paFlickrPhotoService.getSourceUrl;

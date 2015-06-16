@@ -9,11 +9,7 @@ angular.module('potatoPhotosApp')
             restrict: 'E',
             templateUrl: 'app/views/directives/itemListView.html',
             controller: function ($scope, $state, paFlickrPhotoService) {
-                $scope.go = function (id) {
-                    if (id || id === 0) {
-                        $state.go('main.details', {id: id});
-                    }
-                };
+                $scope.currentState = $state.current.name;
                 $scope.getPhotoPageUrl = paFlickrPhotoService.getPhotoPageUrl;
                 $scope.getPhotoOwnerUrl = paFlickrPhotoService.getPhotoOwnerUrl;
             }

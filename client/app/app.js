@@ -8,7 +8,8 @@ angular.module('potatoPhotosApp', [
     'ui.router',
     'ui.bootstrap',
     'ngAnimate',
-    'angularMoment'
+    'angularMoment',
+    'ngTagsInput'
 ])
     .config(function ($stateProvider, $urlRouterProvider) {
         var VIEWS_PATH = 'app/views/';
@@ -27,7 +28,7 @@ angular.module('potatoPhotosApp', [
                 templateUrl: VIEWS_PATH + 'home.html'
             })
             .state('main.details', {
-                url: '/details?id',
+                url: '/details?id&returnState',
                 controller: 'poDetailsController',
                 templateUrl: VIEWS_PATH + 'details.html'
             })

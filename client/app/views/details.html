@@ -1,11 +1,24 @@
+
 <div class="detail-item">
-    <h1 class="detail-item-title">{{photo.title}}</h1>
-    <div class="detail-item-header">
-        <img ui-sref="main.details({id: photo.id})" ng-src="{{getSourceUrl(photo)}}">
+    <div class="main-header">
+        <h1 class="detail-item-title"><a ng-href="{{getPhotoPageUrl(photo)}}" target="_blank">{{photo.title || 'No Title'}}</a></h1>
+        <button ng-if="returnState" class="btn btn-primary pull-right" ui-sref="{{returnState}}"><i class="fa fa-angle-left"></i> Back</button>
     </div>
-    <div class="detail-item-main">
-        <a>{{photo.author}}</a>
-        <a ng-href="{{getPhotoPageUrl(photo)}}" target="_blank">View on Flickr</a>
+    <div class="sub-header">
+        <ul class="sub-header-list">
+            <li class="sub-header-list-item"> <a ng-href="{{getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a> </li>
+            <li class="sub-header-list-item"> Published: {{photo.dates.posted | amDateFormat:'Mo MMM YYYY [at] h:mm'}} </li>
+        </ul>
+    </div>
+    <div class="detail-main">
+        <div class="detail-main-section detail-image-wrapper">
+            <img ui-sref="main.details({id: photo.id})" ng-src="{{getSourceUrl(photo)}}">
+        </div>
+        <div class="detail-main-section detail-description-wrapper">
+            <p ng-bind-html="photo.description._content || 'No Description'"></p>
+            <div class="detail-tags">
+               Tags: {{photo.tags}}
+            </div>
+        </div>
     </div>
 </div>
-

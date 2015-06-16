@@ -1,12 +1,12 @@
 <div class="po-li">
     <div class="po-li-section section-left">
         <div class="po-image clickable" ng-style="{'background-image': 'url(' + photo.url_m + ')'}"
-             ui-sref="main.details({id: photo.id})"></div>
+             ui-sref="main.details({id: photo.id, returnState: currentState})"></div>
     </div>
     <div class="po-li-section section-right">
         <div class="po-li-main">
             <h1 class="po-li-title clickable overflow-ellipsis">
-                <a ui-sref="main.details({id: photo.id})">{{::photo.title || 'No Title'}}</a></h1>
+                <a ui-sref="main.details({id: photo.id, returnState: currentState})">{{::photo.title || 'No Title'}}</a></h1>
 
             <div class="po-li-meta-wrapper">
                 <a class="po-li-meta" ng-href="{{::getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a>
