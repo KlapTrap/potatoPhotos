@@ -3,29 +3,39 @@
 angular.module('potatoPhotosApp')
     .service('poPotatoPhotosService', function (paFlickrPhotoService) {
 
-        var LINK_BASE = 'https://www.flickr.com/photos/';
-
-        this.getPotatoPhotos = function () {
-            return paFlickrPhotoService.getPhotos({
-                tags: 'potato',
-                tagMode: 'all',
-                format: 'json'
-            })
+        this.getPotatoPhotos = function (options) {
+            options = options || {};
+            var params = options.params = options.params || {};
+            params.tags = 'potato';
+            params.tagMode = 'all';
+            params.format = 'json';
+            params.per_page = 20;
+            return paFlickrPhotoService.getPhotos(options);
         };
 
     })
     .service('paFlickrPhotoService', function ($http, $q) {
-        //var url = 'http://api.flickr.com/services/feeds/photos_public.gne';
         var url = 'https://api.flickr.com/services/rest/';
         var apiKey = '503a3ba265e96c811cac7e7bb7489e20';
         var photoListCache = {};
         var photoDetailCache = {};
+        var cachedListPhotos = {};
+        var currentPage = 1;
 
         var extras = [
             'owner_name',
             'date_upload',
             'url_m'
         ];
+
+        function cachePhotos(photos, key) {
+            if (photos && photos.length) {
+                if (!cachedListPhotos.hasOwnProperty(key)) {
+                    cachedListPhotos[key] = [];
+                }
+                cachedListPhotos[key] = cachedListPhotos[key].concat(photos);
+            }
+        }
 
         function cachePhoto(photo, options) {
             options = options || {};
@@ -50,25 +60,52 @@ angular.module('potatoPhotosApp')
             for (var i = 0; i < tags.length; i++) {
                 newTags += (' ' + tags[i]._content);
             }
+
             photo.tags = newTags;
-
             photo.title = photo.title._content;
-
             return photo;
         }
 
-        this.getPhotos = function (params) {
+        this.reset = function () {
+            currentPage = 1;
+            cachedListPhotos = {};
+        };
+
+        this.getPhotos = function (options) {
+            options = options || {};
+            options.params = options.params || {};
+            if (options.next) {
+                currentPage++;
+                options.params.page = currentPage;
+            }
+            var params = options.params;
+            // Check the cache or delete what we have
+            if (options.fromCache && options.key) {
+                console.log('Checking cache');
+                if (cachedListPhotos.hasOwnProperty(options.key)) {
+                    console.log('Fetching from cache');
+                    return $q(function (resolve) {
+                        resolve(cachedListPhotos[options.key]);
+                    });
+                }
+            }
+
             params.jsoncallback = 'JSON_CALLBACK';
             params.format = 'json';
             params.method = 'flickr.photos.search';
             params.api_key = apiKey;
             params.extras = extras.join(',');
+
             return $http({
                 url: url,
-                method: "JSONP",
+                method: 'JSONP',
                 params: params
             }).then(function (res) {
-                return res.data.photos.photo;
+                if (res.data && res.data.photos && res.data.photos.photo) {
+                    var photos = res.data.photos.photo;
+                    cachePhotos(photos, options.key);
+                }
+                return photos;
             });
         };
 
@@ -121,8 +158,6 @@ angular.module('potatoPhotosApp')
                 + '.jpg';
 
             return url;
-
-            //var baseUrl = https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
         };
 
         var basePhotoPageUrl = 'https://www.flickr.com/photos/';

@@ -1,0 +1,4 @@
+<div ng-repeat="photo in photos" class="stagger-fade-in">
+    <po-photo-list-item class="stagger-fade-in" photo="photo"></po-photo-list-item>
+</div>
+<po-at-bottom ng-if="photos && photos.length" fetch="fetch"></po-at-bottom>

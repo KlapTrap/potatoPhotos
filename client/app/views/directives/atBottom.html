@@ -1,0 +1,14 @@
+<div class="at-bottom-bar" ng-click="$scope.fetch()" ng-class="{loading: 'alert-success', noMore: 'alert-warning'}">
+    <div ng-if="!atBottom && !loading">
+        Keep scrolling and I will fetch you more photos...
+    </div>
+    <div ng-if="atBottom && !loading && !error">
+        You're here, welcome.
+    </div>
+    <div ng-if="loading">
+        Hold on, I'm fetching more photos..!
+    </div>
+    <div ng-if="error">
+        Sorry, I couldn't fetch you any more photos. Please click me when you want me to try again.
+    </div>
+</div>

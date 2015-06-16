@@ -5,12 +5,16 @@
     </div>
     <div class="po-li-section section-right">
         <div class="po-li-main">
-            <h1 class="po-li-title clickable" ui-sref="main.details({id: photo.id})">{{::photo.title}}</h1>
-            <a>{{::photo.author}}</a>
+            <h1 class="po-li-title clickable overflow-ellipsis">
+                <a ui-sref="main.details({id: photo.id})">{{::photo.title || 'No Title'}}</a></h1>
 
-            <div>Published: {{::photo.dateupload | amDateFormat:'Mo MMM YYYY [at] h:mm'}}</div>
-            <a ng-href="{{::getPhotoPageUrl(photo)}}" target="_blank">View on Flickr</a>
-            <a ng-href="{{::getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a>
+            <div class="po-li-meta-wrapper">
+                <a class="po-li-meta" ng-href="{{::getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a>
+
+                <div class="po-li-meta po-li-meta-pub">Published: {{::photo.dateupload | amDateFormat:'Mo MMM YYYY [at] h:mm'}}
+                </div>
+                <a class="po-li-meta" ng-href="{{::getPhotoPageUrl(photo)}}" target="_blank">View on Flickr</a>
+            </div>
         </div>
     </div>
 </div>

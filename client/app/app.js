@@ -13,7 +13,7 @@ angular.module('potatoPhotosApp', [
     .config(function ($stateProvider, $urlRouterProvider) {
         var VIEWS_PATH = 'app/views/';
         $urlRouterProvider
-            .otherwise('/');
+            .otherwise('/potato');
 
         $stateProvider
             .state('main', {
@@ -22,7 +22,7 @@ angular.module('potatoPhotosApp', [
                 templateUrl: VIEWS_PATH + 'main.html'
             })
             .state('main.home', {
-                url: '/home',
+                url: '/potato',
                 controller: 'poHomeController',
                 templateUrl: VIEWS_PATH + 'home.html'
             })
@@ -30,10 +30,15 @@ angular.module('potatoPhotosApp', [
                 url: '/details?id',
                 controller: 'poDetailsController',
                 templateUrl: VIEWS_PATH + 'details.html'
+            })
+            .state('main.search', {
+                url: '/search',
+                controller: 'poSearchController',
+                templateUrl: VIEWS_PATH + 'search.html'
             });
     })
     .constant('angularMomentConfig', {
-        preprocess: 'unix',
-        timezone: 'Europe/London'
+        preprocess: 'unix'
+        //timezone: 'Europe/London'
     });
 
