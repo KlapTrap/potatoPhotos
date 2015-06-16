@@ -1,10 +1,16 @@
-<div class="list-item">
-  <div class="list-item-header">
-    <img ng-src="{{photo.media.m}}">
-  </div>
-  <div class="list-item-main">
-    <h1 class="list-item-title">{{photo.title}}</h1>
-    <a>{{photo.author}}</a>
-    <a ng-src="photo.link">View on Flickr</a>
-  </div>
+<div class="po-li">
+    <div class="po-li-section section-left">
+        <div class="po-image clickable" ng-style="{'background-image': 'url(' + photo.url_m + ')'}"
+             ui-sref="main.details({id: photo.id})"></div>
+    </div>
+    <div class="po-li-section section-right">
+        <div class="po-li-main">
+            <h1 class="po-li-title clickable" ui-sref="main.details({id: photo.id})">{{::photo.title}}</h1>
+            <a>{{::photo.author}}</a>
+
+            <div>Published: {{::photo.dateupload | amDateFormat:'Mo MMM YYYY [at] h:mm'}}</div>
+            <a ng-href="{{::getPhotoPageUrl(photo)}}" target="_blank">View on Flickr</a>
+            <a ng-href="{{::getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a>
+        </div>
+    </div>
 </div>

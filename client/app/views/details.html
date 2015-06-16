@@ -1,0 +1,12 @@
+<div class="detail-item">
+    <h1 class="detail-item-title">{{photo.title}}</h1>
+    <div class="detail-item-header">
+        <img ui-sref="main.details({id: photo.id})" ng-src="{{getSourceUrl(photo)}}">
+    </div>
+
+    <div class="detail-item-main">
+        <a>{{photo.author}}</a>
+        <a ng-href="{{getPhotoPageUrl(photo)}}" target="_blank">View on Flickr</a>
+    </div>
+</div>
+

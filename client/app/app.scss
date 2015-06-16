@@ -15,6 +15,66 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     padding: 0.2em 0;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
+$itemHeight: 150px;
+
+.po-li {
+    .po-li-section {
+        $leftSectionWidth: 200px;
+        height: $itemHeight;
+        display: inline-block;
+        &.section-left {
+            position: absolute;
+            width: $leftSectionWidth;
+        }
+        &.section-right {
+            border-bottom: 1px solid rgb(232, 232, 232);
+            padding-left: $leftSectionWidth;
+            width: 100%;
+        }
+        .po-li-main {
+            display: inline-block;
+            height: 100%;
+            padding: 20px;
+        }
+    }
+
+}
+
+.po-image {
+    height: 100%;
+    width: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.stagger-fade-in {
+    &.ng-enter {
+        transition: 0.25s linear all;
+        opacity: 0;
+        &.ng-enter-active {
+            opacity: 1
+        }
+    }
+    &.ng-enter-stagger {
+        transition-delay: 0.1s;
+        transition-duration: 0s;
+    }
+}
+
+//=stagger($delay)
+//&-stagger {
+//    transition-delay: $delay animation-delay:$delay
+//}
+//
+//.animated
+//&.ng-enter
+//+stagger(0.3s)
+
 // Component styles are injected through grunt
 // injector
 @import 'modal/modal.scss';
