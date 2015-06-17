@@ -18,7 +18,7 @@ Due to time limitations I had to glance over some non-essintial improvements. Th
 	* Many more...
 2. Improved usability
 	* Going back and forward between photo list and detail should retain position.
-	* Search should cache results and page number if we come back from viewing a photo (but not if we come to it fresh)
+	* Search should cache results and page number if we come back from viewing a photo (but not if we come to it fresh) [Done]
 3. Accessibility
 	* No thought has gone into accessibility, this should be fixed.
 4. Improved desgin
