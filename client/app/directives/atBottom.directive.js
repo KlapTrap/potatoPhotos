@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * Endless scrolling directive, provides a div with text and will fetch when near the bottom of the page.
+ */
 angular.module('potatoPhotosApp')
     .directive('poAtBottom', function ($window, $document) {
         return {

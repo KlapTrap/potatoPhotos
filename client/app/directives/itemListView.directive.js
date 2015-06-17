@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * A flickr photo list with endless scrolling
+ */
 angular.module('potatoPhotosApp')
     .directive('poPhotoListItem', function ($timeout) {
         return {

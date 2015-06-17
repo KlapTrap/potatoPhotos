@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * Google +1 button directive
+ */
 angular.module('potatoPhotosApp')
     .directive('poPlusOne', function ($timeout) {
         return {

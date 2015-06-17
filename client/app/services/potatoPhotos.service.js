@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('potatoPhotosApp')
+/**
+ * A thin wrapper on top of the Flickr service that provides default options for a potato search
+ */
     .service('poPotatoPhotosService', function (paFlickrPhotoService) {
 
         this.getPotatoPhotos = function (options) {
@@ -14,6 +17,9 @@ angular.module('potatoPhotosApp')
         };
 
     })
+/**
+ * A thin wrapper on top of the Flickr service that provides default options for a potato search
+ */
     .service('paFlickrPhotoService', function ($http, $q) {
         var url = 'https://api.flickr.com/services/rest/';
         var apiKey = '503a3ba265e96c811cac7e7bb7489e20';
@@ -26,6 +32,8 @@ angular.module('potatoPhotosApp')
             'date_upload',
             'url_m'
         ];
+        //////
+        // Cache methods
 
         function cachePhotos(photos, key) {
             if (photos && photos.length) {
@@ -50,19 +58,6 @@ angular.module('potatoPhotosApp')
                 return photoDetailCache[id];
             }
             return null;
-        }
-
-        function convertToPhotoObject(photo) {
-            var tags = photo.tags.tag;
-            var newTags = '';
-
-            for (var i = 0; i < tags.length; i++) {
-                newTags += (' ' + tags[i]._content);
-            }
-
-            photo.tags = newTags;
-            photo.title = photo.title._content;
-            return photo;
         }
 
         function hasCache(key) {
@@ -97,7 +92,31 @@ angular.module('potatoPhotosApp')
         this.reset = function () {
             cachedListPhotos = {};
         };
+        ///////
 
+        function convertToPhotoObject(photo) {
+            var tags = photo.tags.tag;
+            var newTags = '';
+
+            for (var i = 0; i < tags.length; i++) {
+                newTags += (' ' + tags[i]._content);
+            }
+
+            photo.tags = newTags;
+            photo.title = photo.title._content;
+            return photo;
+        }
+
+        /**
+         * Gets a list of photos from given params
+         * A clientside cache will retain search details and results if requested
+         * @param options
+         * params: flikr params
+         * key: the cache key to use
+         * newsearch: if this is a new search, we will clean the cache
+         * fromCache: try to fetch previous results from cache
+         * @returns promise(photos)
+         */
         this.getPhotos = function (options) {
             options = options || {};
             options.params = options.params || {};
@@ -151,7 +170,11 @@ angular.module('potatoPhotosApp')
                 return photos;
             });
         };
-
+        /**
+         * Gets an photo from it's flickr id
+         * @param id the id of the photo
+         * @returns promise(photo)
+         */
         this.getPhoto = function (id) {
             var photo = getPhotoFromCache(id);
             if (photo) {
@@ -204,7 +227,11 @@ angular.module('potatoPhotosApp')
         };
 
         var basePhotoPageUrl = 'https://www.flickr.com/photos/';
-
+        /**
+         * Get the photo's flickr page from a photo object
+         * @param photo
+         * @returns {string}
+         */
         this.getPhotoPageUrl = function (photo) {
             if (!photo) {
                 return '';
@@ -221,6 +248,11 @@ angular.module('potatoPhotosApp')
             return (basePhotoPageUrl + owner + '/' + photo.id);
         };
 
+        /**
+         * Get the photo's owner flickr page from a photo object
+         * @param photo
+         * @returns {string}
+         */
         this.getPhotoOwnerUrl = function (photo) {
             if (!photo) {
                 return '';

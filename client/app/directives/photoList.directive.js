@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * Flickr photo list
+ */
 angular.module('potatoPhotosApp')
     .directive('poPhotoList', function () {
         return {
