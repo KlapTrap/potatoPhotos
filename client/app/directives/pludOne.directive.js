@@ -9,7 +9,7 @@ angular.module('potatoPhotosApp')
             restrict: 'E',
             templateUrl: 'app/views/directives/plusOne.html',
             link: function (scope, elem) {
-                gapi.plusone.render(elem.find('.g-plusone')[0]);
+                gapi.plusone.render(elem.find('.g-plusone')[0], {'data-href': scope.url});
             }
         }
     });
