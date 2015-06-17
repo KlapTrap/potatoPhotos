@@ -5,7 +5,7 @@ angular.module('potatoPhotosApp')
         $scope.photos = [];
         $scope.firstFetch = true;
         function fetch(options) {
-            options.key = 'potato';
+
             return poPotatoPhotosService.getPotatoPhotos(options).then(function (photos) {
                     if (options.fromCache) {
                         // Make sure we repopulate the whole photo list if we grab it from the cache

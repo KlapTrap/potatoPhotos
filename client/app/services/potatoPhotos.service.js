@@ -8,8 +8,9 @@ angular.module('potatoPhotosApp')
 
         this.getPotatoPhotos = function (options) {
             options = options || {};
+            options.key = 'potato';
             var params = options.params = options.params || {};
-            params.tags = 'potato';
+            params.tags = ['potato'];
             params.tagMode = 'all';
             params.format = 'json';
             params.per_page = 20;
