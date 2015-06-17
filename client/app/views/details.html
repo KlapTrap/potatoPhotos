@@ -8,6 +8,10 @@
         <ul class="sub-header-list">
             <li class="sub-header-list-item"> <a ng-href="{{getPhotoOwnerUrl(photo)}}" target="_blank">Photo Author</a> </li>
             <li class="sub-header-list-item"> Published: {{photo.dates.posted | amDateFormat:'Mo MMM YYYY [at] h:mm'}} </li>
+            <!-- Place this tag where you want the +1 button to render. -->
+            <li class="sub-header-list-item ">
+                <div ng-href="{{getSourceUrl(photo)}}" class="g-plusone" data-annotation="inline" data-width="300"></div>
+            </li>
         </ul>
     </div>
     <div class="detail-main">

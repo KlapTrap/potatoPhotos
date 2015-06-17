@@ -7,7 +7,8 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 
 $use-fadeIn: true;
 $use-fadeInDown: true;
-
+$maxScreenWidth: 800px;
+$maxScreenWidthSmall: 400px;
 /**
  * App-wide Styles
  */
@@ -27,7 +28,6 @@ html * {
     cursor: pointer;
 }
 
-$itemHeight: 100px;
 $li-border: 1px solid #E8E8E8;
 .main-title {
     text-align: center;
@@ -50,22 +50,32 @@ $searchIconWidth: 20px;
 }
 
 .po-li {
+
     &:hover {
         background-color: #eaeaea;
         transition: 1s;
     }
     .po-li-section {
         $leftSectionWidth: 200px;
-        height: $itemHeight;
+        $leftSectionWidthSmall: 100px;
+        height: 100%;
         display: inline-block;
         &.section-left {
+
             position: absolute;
             width: $leftSectionWidth;
+            @media screen and (max-width: $maxScreenWidthSmall) {
+                width: $leftSectionWidthSmall;
+            }
         }
         &.section-right {
+
             border-bottom: $li-border;
             padding-left: $leftSectionWidth;
             width: 100%;
+            @media screen and (max-width: $maxScreenWidthSmall) {
+                padding-left: $leftSectionWidthSmall;
+            }
         }
         .po-li-main {
             h1 {
@@ -74,10 +84,16 @@ $searchIconWidth: 20px;
                 margin: 0;
             }
             .po-li-meta-wrapper {
-                margin-top: 25px;
+                margin-top: 15px;
+
                 .po-li-meta {
                     display: inline-block;
                     padding-right: 10px;
+                }
+                .po-li-meta, .g-plusone {
+                    @media screen and (max-width: $maxScreenWidth) {
+                        display: block;
+                    }
                 }
             }
 
@@ -87,7 +103,11 @@ $searchIconWidth: 20px;
             padding: 10px 20px;
         }
     }
+    position: relative;
     display: flex;
+    @media screen and (max-width: $maxScreenWidth) {
+        height: 150px;
+    }
 }
 
 .overflow-ellipsis {
@@ -120,42 +140,6 @@ $searchIconWidth: 20px;
     padding: 10px;
 }
 
-// Search
-
-////// Stole it of the internet
-.bootstrap .tags {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-
-.bootstrap .tags.focused {
-    border-color: #66afe9;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
-}
-
-.bootstrap .tags .tag-item {
-    background: #428bca;
-    border: 1px solid #357ebd;
-    border-radius: 4px;
-    color: #fff;
-}
-
-.bootstrap .tags .tag-item.selected {
-    background: #d9534f;
-    border: 1px solid #d43f3a;
-    border-radius: 4px;
-    color: #fff;
-}
-
-.bootstrap .tags .tag-item button {
-    background: transparent;
-    color: #000;
-    opacity: .4;
-}
-//////
 
 // Search details
 
@@ -172,13 +156,27 @@ $searchIconWidth: 20px;
             .sub-header-list-item {
                 margin: 10px 10px 10px 0;
                 display: inline-block;
+                @media screen and (max-width: $maxScreenWidth) {
+                    display: block;
+                    border-left: none;
+                    padding-left: 0;
+                }
             }
         }
     }
     .detail-main-section {
+        @media screen and (max-width: $maxScreenWidth) {
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
         &.detail-description-wrapper {
             position: absolute;
             padding: 20px;
+            @media screen and (max-width: $maxScreenWidth) {
+                position: static;
+            }
         }
         display: inline-block;
     }

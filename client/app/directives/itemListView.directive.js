@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('potatoPhotosApp')
-    .directive('poPhotoListItem', function () {
+    .directive('poPhotoListItem', function ($timeout) {
         return {
             scope: {
                 photo: '='
