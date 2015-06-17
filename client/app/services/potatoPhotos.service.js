@@ -20,7 +20,6 @@ angular.module('potatoPhotosApp')
         var photoListCache = {};
         var photoDetailCache = {};
         var cachedListPhotos = {};
-        var currentPage = 1;
 
         var extras = [
             'owner_name',
@@ -30,10 +29,10 @@ angular.module('potatoPhotosApp')
 
         function cachePhotos(photos, key) {
             if (photos && photos.length) {
-                if (!cachedListPhotos.hasOwnProperty(key)) {
-                    cachedListPhotos[key] = [];
+                if (!hasCache(key)) {
+                    createCache(key);
                 }
-                cachedListPhotos[key] = cachedListPhotos[key].concat(photos);
+                cachedListPhotos[key].photos = cachedListPhotos[key].photos.concat(photos);
             }
         }
 
@@ -66,30 +65,74 @@ angular.module('potatoPhotosApp')
             return photo;
         }
 
+        function hasCache(key) {
+            return cachedListPhotos.hasOwnProperty(key);
+        }
+
+        function getCache(key) {
+            return cachedListPhotos[key];
+        }
+
+        this.getCache = getCache;
+
+        function createCache(key) {
+            cachedListPhotos[key] = {
+                photos: [],
+                page: 1
+            };
+            return cachedListPhotos[key];
+        }
+
+        function cleanCache(key) {
+            createCache(key);
+        }
+
+        function getOrCreateGetCache(key) {
+            if (!hasCache(key)) {
+                createCache(key);
+            }
+            return getCache(key);
+        }
+
         this.reset = function () {
-            currentPage = 1;
             cachedListPhotos = {};
         };
 
         this.getPhotos = function (options) {
             options = options || {};
             options.params = options.params || {};
-            if (options.next) {
-                currentPage++;
-                options.params.page = currentPage;
+            // Deal with the cache
+
+            if (options.key) {
+                if (options.newSearch) {
+                    cleanCache(options.key);
+                }
+                var cache = getOrCreateGetCache(options.key);
+                if (options.next) {
+                    var currentPage = getOrCreateGetCache(options.key).page;
+                    currentPage++;
+                    options.params.page = currentPage;
+                }
+                cache.tags = options.params.tags || [];
+                cache.text = options.params.text || '';
             }
             var params = options.params;
             // Check the cache
             if (options.fromCache && options.key) {
                 console.log('Checking cache');
-                if (cachedListPhotos.hasOwnProperty(options.key)) {
-                    console.log('Fetching from cache');
-                    return $q(function (resolve) {
-                        resolve(cachedListPhotos[options.key]);
-                    });
+                if (hasCache(options.key)) {
+                    var photo = getCache(options.key).photos;
+                    // If we have a cache but no photos, we need to fetch.
+                    if (photo && photo.length) {
+                        console.log('Fetching from cache');
+                        return $q(function (resolve) {
+                            resolve(getCache(options.key).photos);
+                        })
+                    }
                 }
             }
 
+            // No photos in the cache
             params.jsoncallback = 'JSON_CALLBACK';
             params.format = 'json';
             params.method = 'flickr.photos.search';

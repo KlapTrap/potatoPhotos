@@ -17,6 +17,15 @@ angular.module('potatoPhotosApp')
             return tagArray;
         }
 
+        function convertArrayToTags(array) {
+            var tagArray = [];
+            for (var i = 0; i < array.length; i++) {
+                var tag = array[i];
+                tagArray.push({'text': tag});
+            }
+            return tagArray;
+        }
+
         function fetch(options) {
             options = options || {};
             options.params = {
@@ -29,7 +38,7 @@ angular.module('potatoPhotosApp')
 
             options.key = 'search';
             return paFlickrPhotoService.getPhotos(options).then(function (photos) {
-                    if (options.fromCache || options.newSearch) {
+                    if (options.newSearch) {
                         // Make sure we repopulate the whole photo list if we grab it from the cache
                         $scope.photos = photos;
                     } else {
@@ -63,12 +72,24 @@ angular.module('potatoPhotosApp')
             }
         }
 
-        $scope.$watch('searchText', function (newVal, oldVal) {
-            newSearch(newVal, oldVal, 'searchText')
-        });
-        $scope.$watchCollection('tags', function (newVal, oldVal) {
 
-            newSearch(newVal, oldVal, 'tags')
-        });
+        function fetchCachedResult() {
+            var cache = paFlickrPhotoService.getCache('search');
+            // If we have a cache load that in
+            if (cache) {
+                $scope.photos = cache.photos;
+                $scope.tags = convertArrayToTags(cache.tags);
+                $scope.searchText = cache.text;
+            }
+            // Setup the watches after as not to trigger them ourselves
+            $scope.$watch('searchText', function (newVal, oldVal) {
+                newSearch(newVal, oldVal, 'searchText')
+            });
+            $scope.$watchCollection('tags', function (newVal, oldVal) {
+                newSearch(newVal, oldVal, 'tags')
+            });
+        }
+
+        fetchCachedResult();
     });
 
